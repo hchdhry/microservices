@@ -3,14 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{ED6E8F82-0772-4F71-A819-6A0E512EF0CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mango.services", "services\mango.services.CouponAPI\mango.services.csproj", "{534B0E8D-29E1-45F7-9182-550251315DBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{534B0E8D-29E1-45F7-9182-550251315DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{534B0E8D-29E1-45F7-9182-550251315DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{534B0E8D-29E1-45F7-9182-550251315DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{534B0E8D-29E1-45F7-9182-550251315DBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{534B0E8D-29E1-45F7-9182-550251315DBD} = {ED6E8F82-0772-4F71-A819-6A0E512EF0CB}
 	EndGlobalSection
 EndGlobal
