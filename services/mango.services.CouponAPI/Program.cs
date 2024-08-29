@@ -20,6 +20,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+void ApplyMigrations()
+{
+    var _db = app.Services.GetRequiredService<ApplicationDBContext>();
+    if(_db.Database.GetPendingMigrations().Count()>0)
+    {
+        _db.Database.Migrate();
+    }
+}
 
 app.UseHttpsRedirection();
 

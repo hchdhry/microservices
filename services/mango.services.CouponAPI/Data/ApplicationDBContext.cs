@@ -31,7 +31,7 @@ namespace mango.services.Data
                     CouponCode = "20OFF",
                     DiscountAmount = 20,
                     MinAmount = 40,
-                    LastUpdated = DateTime.UtcNow
+                    LastUpdated = DateTime.UtcNow  
                 }
             );
         }
