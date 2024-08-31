@@ -32,6 +32,25 @@ namespace mango.services.Controllers
 
             }
         }
+        
+        [HttpGet]
+        [Route("id:int")]
+        public async Task<coupon> Get(int id)
+        {
+            try
+            {
+                coupon coupon = await _DB.Coupons.FirstAsync(u=>u.couponID == id);
+                return coupon;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+
+            }
+        }
+
+
 
     }
 }
