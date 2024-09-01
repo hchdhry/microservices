@@ -49,6 +49,23 @@ namespace mango.services.Controllers
 
             }
         }
+        [HttpPost]
+        public async Task<coupon> Post([FromBody] coupon coupon)
+        {
+            try
+            {
+                await _DB.Coupons.AddAsync(coupon);
+                await _DB.SaveChangesAsync();
+                return coupon;
+            }
+            catch (Exception e)
+            {
+                // Log the exception (optional)
+                return null;
+            }
+        }
+
+
 
 
 
