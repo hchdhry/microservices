@@ -59,8 +59,8 @@ namespace mango.services.Controllers
                 return coupon;
             }
             catch (Exception e)
-            {
-                // Log the exception (optional)
+            {   
+                Console.WriteLine(e);
                 return null;
             }
         }
