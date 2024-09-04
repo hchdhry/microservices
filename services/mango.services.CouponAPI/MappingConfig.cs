@@ -8,7 +8,7 @@ namespace mango.services
     {
         public MappingConfig()
         {
-            // Define the mappings between coupon and CouponDTO
+           
             CreateMap<coupon, CouponDTO>()
                 .ForMember(dest => dest.MinAmount, opt => opt.MapFrom(src => src.MinAmount))
                 .ForMember(dest => dest.CouponCode, opt => opt.MapFrom(src => src.CouponCode))

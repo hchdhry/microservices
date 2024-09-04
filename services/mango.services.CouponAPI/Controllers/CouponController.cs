@@ -15,7 +15,6 @@ namespace mango.services.Controllers
         private readonly ApplicationDBContext _db;
         private readonly IMapper _mapper;
 
-   
         public CouponController(ApplicationDBContext dbContext, IMapper mapper)
         {
             _db = dbContext;
@@ -29,20 +28,19 @@ namespace mango.services.Controllers
             try
             {
                 var couponList = await _db.Coupons.ToListAsync();
-                responseDTO.Result = couponList;
+                responseDTO.Result = _mapper.Map<IEnumerable<CouponDTO>>(couponList);
                 responseDTO.isSuccess = true;
             }
             catch (Exception e)
             {
                 responseDTO.Message = e.Message;
-                responseDTO.Result = Enumerable.Empty<coupon>(); 
+                responseDTO.Result = Enumerable.Empty<coupon>();
             }
 
             return Ok(responseDTO);
         }
 
-        [HttpGet]
-        [Route("{id:int}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<ResponseDTO>> Get(int id)
         {
             var responseDTO = new ResponseDTO();
@@ -65,9 +63,8 @@ namespace mango.services.Controllers
             return Ok(responseDTO);
         }
 
-        [HttpPost]
-        [Route("create")]
-        public async Task<ActionResult<ResponseDTO>> Post([FromBody] coupon coupon)
+        [HttpPost("create")]
+        public async Task<ActionResult<ResponseDTO>> Post([FromBody] CouponDTO coupon)
         {
             var responseDTO = new ResponseDTO();
             try
@@ -77,8 +74,8 @@ namespace mango.services.Controllers
                     responseDTO.Message = "Invalid coupon data";
                     return BadRequest(responseDTO);
                 }
-
-                await _db.Coupons.AddAsync(coupon);
+                var obj = _mapper.Map<coupon>(coupon);
+                await _db.Coupons.AddAsync(obj);
                 await _db.SaveChangesAsync();
                 responseDTO.isSuccess = true;
                 responseDTO.Result = coupon;
@@ -91,5 +88,57 @@ namespace mango.services.Controllers
 
             return CreatedAtAction(nameof(Get), new { id = coupon.couponID }, responseDTO);
         }
+        [HttpPut("update")]
+        public async Task<ActionResult<ResponseDTO>> update([FromBody] CouponDTO coupon)
+        {
+            var responseDTO = new ResponseDTO();
+            try
+            {
+                if (coupon == null)
+                {
+                    responseDTO.Message = "Invalid coupon data";
+                    return BadRequest(responseDTO);
+                }
+                var obj = _mapper.Map<coupon>(coupon);
+                _db.Coupons.Update(obj);
+                await _db.SaveChangesAsync();
+                responseDTO.isSuccess = true;
+                responseDTO.Result = coupon;
+            }
+            catch (Exception e)
+            {
+                responseDTO.Message = e.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, responseDTO);
+            }
+
+            return StatusCode(201,responseDTO);
+        }
+        [HttpDelete]
+        public async Task<ActionResult<ResponseDTO>> Delete([FromBody] int id)
+        {
+            var responseDTO = new ResponseDTO();
+            try
+            {
+                coupon coupon = await _db.Coupons.FirstOrDefaultAsync(u=>u.couponID == id);
+                if (coupon == null)
+                {
+                    responseDTO.Message = "Invalid coupon data";
+                    return BadRequest(responseDTO);
+                }
+                _db.Coupons.Remove(coupon);
+                await _db.SaveChangesAsync();
+                responseDTO.isSuccess = true;
+                responseDTO.Result = coupon;
+            }
+            catch (Exception e)
+            {
+                responseDTO.Message = e.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, responseDTO);
+            }
+
+            return StatusCode(201);
+        }
+
     }
+
 }
