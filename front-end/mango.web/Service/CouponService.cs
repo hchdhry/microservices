@@ -1,17 +1,17 @@
 using mango.web.models.DTO;
 using mango.web.Models.DTO;
-using mango.web.Service;
 using mango.web.Service.IService;
 using mango.web.Utilities;
 
-public class couponService : ICouponService
+namespace mango.web.Service;
+public class CouponService : ICouponService
 {
     private readonly IBaseService _baseService;
-    public couponService(IBaseService baseService) 
+    public CouponService(IBaseService baseService) 
     {
         _baseService = baseService;
     }
-    public async Task<ResponseDTO> CreateCoupon<T>(CouponDTO couponDTO)
+    public async Task<ResponseDTO> CreateCoupon(CouponDTO couponDTO)
     {
         return await _baseService.SendAsync(new RequestDTO
         {
@@ -21,7 +21,7 @@ public class couponService : ICouponService
         });
     }
 
-    public async Task<ResponseDTO> DeleteCoupon<T>(int couponID)
+    public async Task<ResponseDTO> DeleteCoupon(int couponID)
     {
         return await _baseService.SendAsync(new RequestDTO
         {
@@ -30,7 +30,7 @@ public class couponService : ICouponService
         });
     }
 
-    public async Task<ResponseDTO> GetAllCouponsAsync<T>()
+    public async Task<ResponseDTO> GetAllCouponsAsync()
     {
        return await _baseService.SendAsync(new RequestDTO
        {
@@ -39,7 +39,7 @@ public class couponService : ICouponService
        });
     }
 
-    public async Task<ResponseDTO> GetCouponByIdAsync<T>(int couponID)
+    public async Task<ResponseDTO> GetCouponByIdAsync(int couponID)
     {
         return await _baseService.SendAsync(new RequestDTO
         {
@@ -51,7 +51,7 @@ public class couponService : ICouponService
         
     
 
-    public async Task<ResponseDTO> UpdateCoupon<T>(CouponDTO couponDTO)
+    public async Task<ResponseDTO> UpdateCoupon(CouponDTO couponDTO)
     {
         return await _baseService.SendAsync(new RequestDTO
         {
