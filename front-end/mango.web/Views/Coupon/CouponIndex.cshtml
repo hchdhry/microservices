@@ -14,15 +14,15 @@
             <div class="col-6">
             </div>
             <div class="col-6 text-end">
-                <a class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Create New Coupon</a>
+                <a asp-action="CouponCreate" asp-controller="Coupon" class="btn btn-outline-primary"><i
+                        class="bi bi-plus-square"></i> Create New Coupon</a>
 
             </div>
         </div>
         <table class="table">
             <thead>
                 <tr>
-    using mango.web.Models.DTO;
-    using mango.web.Models.DTO;
+ 
                     <th>
                         Coupon Code
                     </th>
@@ -43,10 +43,10 @@
                         @item.CouponCode
                     </td>
                     <td>
-                        @item.DiscountAmount
+                        @item.DiscountAmount.ToString("C")
                     </td>
                     <td>
-                        @item.MinAmount
+                        @item.MinAmount.ToString("C")
 
                     </td>
                     <td>
