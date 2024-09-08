@@ -47,22 +47,31 @@ public class BaseService : IBaseService
 
        apiResponse = await client.SendAsync(message);
 
-       switch(apiResponse.StatusCode)
-       {
-        case HttpStatusCode.Unauthorized:
-            return new ResponseDTO {Message = "Please Login", isSuccess = false};
-        case HttpStatusCode.Forbidden:
-            return new ResponseDTO {Message = "You are not authorized to perform this action", isSuccess = false};
-        case HttpStatusCode.NotFound:
-            return new ResponseDTO {Message = "Resource not found", isSuccess = false};
-        case HttpStatusCode.BadRequest:
-            return new ResponseDTO {Message = "Please provide the required information", isSuccess = false};
-        default:
-            var apiContent = await apiResponse.Content.ReadAsStringAsync();
-            var responseDTO = JsonConvert.DeserializeObject<ResponseDTO>(apiContent);
-            return responseDTO;
-       }
-       
-        
+        switch (apiResponse.StatusCode)
+        {
+            case HttpStatusCode.Unauthorized:
+                return new ResponseDTO { Message = "Please Login", isSuccess = false, Result = null };
+            case HttpStatusCode.Forbidden:
+                return new ResponseDTO { Message = "You are not authorized to perform this action", isSuccess = false, Result = null };
+            case HttpStatusCode.NotFound:
+                return new ResponseDTO { Message = "Resource not found", isSuccess = false, Result = null };
+            case HttpStatusCode.BadRequest:
+                return new ResponseDTO { Message = "Please provide the required information", isSuccess = false, Result = null };
+            default:
+                var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                var responseDTO = JsonConvert.DeserializeObject<ResponseDTO>(apiContent);
+                if (responseDTO == null)
+                {
+                    responseDTO = new ResponseDTO
+                    {
+                        isSuccess = apiResponse.IsSuccessStatusCode,
+                        Message = apiResponse.IsSuccessStatusCode ? "Success" : "Error",
+                        Result = apiContent
+                    };
+                }
+                return responseDTO;
+        }
+
+
     }
 }

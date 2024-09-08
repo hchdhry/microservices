@@ -26,10 +26,29 @@ namespace mango.web.Controllers
             return View(coupons);
         }
 
-        public async Task<IActionResult> CouponCreate()
+        [HttpGet]
+        public IActionResult CouponCreate()
         {
             return View();
         }
 
+        
+        [HttpPost]
+        public async Task<IActionResult> CouponCreate(CouponDTO coupon)
+        {
+            if (ModelState.IsValid)
+            {
+                ResponseDTO response = await _couponRepository.CreateCoupon(coupon);
+                if (response != null && response.isSuccess)
+                {
+                    return RedirectToAction(nameof(CouponIndex));
+                }
+                else
+                {
+                    ModelState.AddModelError("", response?.Message ?? "Error creating coupon. Please try again.");
+                }
+            }
+            return View(coupon);
+        }
     }
 }

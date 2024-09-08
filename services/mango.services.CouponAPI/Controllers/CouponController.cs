@@ -63,7 +63,7 @@ namespace mango.services.Controllers
             return Ok(responseDTO);
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<ActionResult<ResponseDTO>> Post([FromBody] CouponDTO coupon)
         {
             var responseDTO = new ResponseDTO();
