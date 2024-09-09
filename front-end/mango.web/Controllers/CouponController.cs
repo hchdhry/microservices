@@ -50,5 +50,42 @@ namespace mango.web.Controllers
             }
             return View(coupon);
         }
+    
+        public async Task<IActionResult> CouponDelete(int id)
+        {
+            ResponseDTO response = await _couponRepository.GetCouponByIdAsync(id);
+            if (response != null && response.isSuccess)
+            {
+               CouponDTO coupons = JsonConvert.DeserializeObject<CouponDTO>(Convert.ToString(response.Result));
+                return View(coupons);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        
+        public async Task<IActionResult> CouponDelete(CouponDTO coupon)
+        {
+            if (ModelState.IsValid)
+            {
+                ResponseDTO response = await _couponRepository.DeleteCoupon(coupon.couponID);
+                if (response != null && response.isSuccess)
+                {
+                    return RedirectToAction(nameof(CouponIndex));
+                }
+                else
+                {
+                    ModelState.AddModelError("", response?.Message ?? "Error deleting coupon. Please try again.");
+                    return View(coupon);
+                }
+            }
+            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                Console.WriteLine(error.ErrorMessage);
+            }
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
     }
 }

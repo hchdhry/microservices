@@ -114,7 +114,8 @@ namespace mango.services.Controllers
             return StatusCode(201,responseDTO);
         }
         [HttpDelete]
-        public async Task<ActionResult<ResponseDTO>> Delete([FromBody] int id)
+        [Route("{id:int}")]
+        public async Task<ActionResult<ResponseDTO>> Delete(int id)
         {
             var responseDTO = new ResponseDTO();
             try
