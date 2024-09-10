@@ -71,12 +71,15 @@ namespace mango.web.Controllers
                 ResponseDTO response = await _couponRepository.DeleteCoupon(coupon.couponID);
                 if (response != null && response.isSuccess)
                 {
+                    TempData["success"] = "Coupon deleted successfully";    
                     return RedirectToAction(nameof(CouponIndex));
                 }
                 else
                 {
+                    TempData["error"] = response?.Message ?? "Error deleting coupon. Please try again.";
                     ModelState.AddModelError("", response?.Message ?? "Error deleting coupon. Please try again.");
                     return View(coupon);
+     
                 }
             }
             foreach (var error in ModelState.Values.SelectMany(v => v.Errors))

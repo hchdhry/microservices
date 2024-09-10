@@ -1,0 +1,85 @@
+﻿@if (!Context.Items.ContainsKey("ToastrLoaded"))
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+</script>
+    Context.Items["ToastrLoaded"] = true;
+}
+
+<script>
+    console.log("Notifications partial view loaded");
+    @foreach (var key in TempData.Keys)
+    {
+        <text>console.log("TempData[@key]: '@TempData[key]'");</text>
+    }
+
+        function encodeJsString(str) {
+            return str.replace(/[\u00A0-\u9999<>\&]/gim, function (i) {
+                return '&#' + i.charCodeAt(0) + ';';
+            });
+        }
+
+   
+            (function checkJQuery() {
+                if (window.jQuery) {
+                    if (typeof toastr !== 'undefined') {
+                        console.log("Toastr is properly loaded");
+
+    @if (TempData["success"] != null || TempData["Success"] != null)
+    {
+        <text>
+                                    console.log("Attempting to show success notification");
+                                    toastr.success(encodeJsString('@(TempData["success"] ?? TempData["Success"])'));
+        </text>
+    }
+
+    @if (TempData["error"] != null || TempData["Error"] != null)
+    {
+        <text>
+                                    console.log("Attempting to show error notification");
+                                    toastr.error(encodeJsString('@(TempData["error"] ?? TempData["Error"])'));
+        </text>
+    }
+
+    @if (TempData["warning"] != null || TempData["Warning"] != null)
+    {
+        <text>
+                                    console.log("Attempting to show warning notification");
+                                    toastr.warning(encodeJsString('@(TempData["warning"] ?? TempData["Warning"])'));
+        </text>
+    }
+
+    @if (TempData["info"] != null || TempData["Info"] != null)
+    {
+        <text>
+                                    console.log("Attempting to show info notification");
+                                    toastr.info(encodeJsString('@(TempData["info"] ?? TempData["Info"])'));
+        </text>
+    }
+            } else {
+                        console.error("Toastr is not loaded. Please check if the script is included and loaded properly.");
+                    }
+                } else {
+                    console.log("Waiting for jQuery to load...");
+                    setTimeout(checkJQuery, 50);
+                }
+            })();
+</script>
