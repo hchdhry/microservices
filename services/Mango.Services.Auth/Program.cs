@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using mango.services.Auth.Data;
 using Microsoft.AspNetCore.Identity;
+using mango.services.Auth.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("APIsettings:JwtOptions"));
 builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
