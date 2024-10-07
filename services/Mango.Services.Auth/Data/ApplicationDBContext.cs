@@ -7,6 +7,7 @@ namespace mango.services.Auth.Data
 {
     public class ApplicationDBContext : IdentityDbContext<IdentityUser>
     {
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
         }
