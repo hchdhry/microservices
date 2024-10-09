@@ -2,7 +2,6 @@ using System;
 using mango.services.Auth.Data;
 using mango.services.Auth.DTO;
 using mango.services.Auth.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
 namespace Mango.Services.Auth.Services;
@@ -11,58 +10,63 @@ public class AuthService : IAuthService
 {
     private readonly ApplicationDBContext applicationDBContext;
     private readonly UserManager<ApplicationUser> userManager;
-
     private readonly RoleManager<IdentityRole> roleManager;
 
-    public AuthService(ApplicationDBContext _applicationDBContext,UserManager<ApplicationUser> _userManager,RoleManager<IdentityRole> _roleManager)
+    public AuthService(ApplicationDBContext _applicationDBContext, UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole> _roleManager)
     {
         applicationDBContext = _applicationDBContext;
         userManager = _userManager;
         roleManager = _roleManager;
     }
+
     public Task<LoginResponseDTO> LogIn(LoginDTO loginDTO)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<UserDTO> Register(RegisterDTO registerDTO)
+    public async Task<string> Register(RegisterDTO registerDTO)
     {
-        ApplicationUser NewUser = new ()
+
+        ApplicationUser newUser = new ApplicationUser
         {
             Email = registerDTO.Email,
-            PasswordHash = registerDTO.Password,
+            UserName = registerDTO.Email, 
             PhoneNumber = registerDTO.PhoneNumber,
-            NormalizedEmail = registerDTO.Email.ToUpper()
-            
+            NormalizedEmail = registerDTO.Email.ToUpper(),
+           
         };
+
         try
         {
-            var result = await userManager.CreateAsync(NewUser,registerDTO.Password);
-            if (result.Succeeded) 
+     
+            var result = await userManager.CreateAsync(newUser, registerDTO.Password);
+
+            if (result.Succeeded)
             {
-                var user = applicationDBContext.ApplicationUsers.First(u=>u.NormalizedEmail == registerDTO.Email.ToUpper());
-                UserDTO userDTO = new()
+         
+                var user = await userManager.FindByEmailAsync(registerDTO.Email.ToUpper());
+                if (user != null)
                 {
-                    Email = user.Email,
-                    ID = user.Id,
-                    Name = user.Name,
-                    PhoneNumber = user.PhoneNumber
+                    UserDTO userDTO = new()
+                    {
+                        Email = user.Email,
+                        Name = user.Name,
+                        PhoneNumber = user.PhoneNumber
+                    };
+                }
 
-
-                    
-                };
-                return userDTO;
-
+                return $"User with email: {registerDTO.Email} created successfully!";
             }
-            return new UserDTO();
-
-
-
+            else
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                return $"Failed to create user: {errors}";
+            }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-            return new UserDTO();
-
+           
+            return $"An error occurred: {e.Message}";
         }
     }
 }
