@@ -3,6 +3,7 @@ using mango.services.Auth.Data;
 using mango.services.Auth.DTO;
 using mango.services.Auth.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mango.Services.Auth.Services;
 
@@ -19,9 +20,38 @@ public class AuthService : IAuthService
         roleManager = _roleManager;
     }
 
-    public Task<LoginResponseDTO> LogIn(LoginDTO loginDTO)
+    public async Task<LoginResponseDTO> LogIn(LoginDTO loginDTO)
     {
-        throw new NotImplementedException();
+      
+      
+            var user = await applicationDBContext.ApplicationUsers.FirstOrDefaultAsync(u=>u.UserName == loginDTO.UserName);
+
+        UserDTO UserDto = new UserDTO
+        {
+            ID = user.Id,
+            Email = user.Email,
+            Name = user.Name,
+            PhoneNumber = user.PhoneNumber
+        };
+
+        bool IsValid = await userManager.CheckPasswordAsync(user,loginDTO.Password);
+            if(user == null || IsValid != true )
+            {
+                return new LoginResponseDTO
+                {
+                    userDTO = null,
+                    Token = ""
+
+                };
+            }
+            else return new LoginResponseDTO
+            {
+                userDTO = UserDto,
+                Token = ""
+
+            };
+
+
     }
 
     public async Task<string> Register(RegisterDTO registerDTO)
