@@ -13,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IJWTService,JWTService>();
 
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("APIsettings:JwtOptions"));
@@ -21,6 +22,7 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("APIsett
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDBContext>()
     .AddDefaultTokenProviders();
+
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
