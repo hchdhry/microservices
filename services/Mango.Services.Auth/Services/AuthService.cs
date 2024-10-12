@@ -11,13 +11,15 @@ public class AuthService : IAuthService
 {
     private readonly ApplicationDBContext applicationDBContext;
     private readonly UserManager<ApplicationUser> userManager;
+    private readonly IJWTService _jWTService;
     private readonly RoleManager<IdentityRole> roleManager;
 
-    public AuthService(ApplicationDBContext _applicationDBContext, UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole> _roleManager)
+    public AuthService(ApplicationDBContext _applicationDBContext, UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole> _roleManager,IJWTService jWTService)
     {
         applicationDBContext = _applicationDBContext;
         userManager = _userManager;
         roleManager = _roleManager;
+        _jWTService = jWTService;
     }
 
     public async Task<LoginResponseDTO> LogIn(LoginDTO loginDTO)
@@ -47,7 +49,7 @@ public class AuthService : IAuthService
             else return new LoginResponseDTO
             {
                 userDTO = UserDto,
-                Token = ""
+                Token = await _jWTService.GenerateToken(user)
 
             };
 
