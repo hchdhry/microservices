@@ -41,5 +41,19 @@ namespace Mango.Services.Auth.Controllers
 
 
         }
+        [HttpPost]
+        [Route("AssignRole")]
+        public async Task<IActionResult> AssignRole([FromBody] RegisterDTO Model)
+        {
+            var response = await _authService.AssignRole(Model.Email,Model.RoleName);
+            if (response == false)
+            {
+               
+                return BadRequest(response);
+            }
+            return Ok(response);
+
+
+        }
     }
 }

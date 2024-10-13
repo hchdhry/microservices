@@ -22,6 +22,23 @@ public class AuthService : IAuthService
         _jWTService = jWTService;
     }
 
+    public async Task<bool> AssignRole(string Email, string Role)
+    {
+        var user = await userManager.FindByEmailAsync(Email);
+        if(user != null)
+        {
+            if(!roleManager.RoleExistsAsync(Role).GetAwaiter().GetResult())
+            {
+                roleManager.CreateAsync(new IdentityRole(Role)).GetAwaiter().GetResult();
+
+            }
+            await userManager.AddToRoleAsync(user,Role);
+            return true;
+
+        }
+        return false;
+    }
+
     public async Task<LoginResponseDTO> LogIn(LoginDTO loginDTO)
     {
       
