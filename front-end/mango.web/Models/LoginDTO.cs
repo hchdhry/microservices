@@ -1,4 +1,4 @@
-namespace mango.web.models.DT{
+namespace mango.web.models.DTO{
 public class LoginDTO
 {
     public string UserName {get;set;}
