@@ -24,7 +24,7 @@ public class AuthService : IAuthService
         return await _baseService.SendAsync(new RequestDTO
         {
             APItype = SD.APIType.POST,
-            Url = SD.AuthAPIBase + "/api/Login",
+            Url = SD.AuthAPIBase + "/api/Auth/login",
             Data = loginDTO
         });
     }

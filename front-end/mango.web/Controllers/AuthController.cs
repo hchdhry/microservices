@@ -1,3 +1,4 @@
+
 using mango.web.models.DTO;
 using mango.web.Service.IService;
 using Microsoft.AspNetCore.Http;
@@ -21,11 +22,21 @@ namespace mango.web.Controllers
         }
 
         [HttpPost]
-       
-        public async Task<ResponseDTO> Login([FromBody]LoginDTO loginDTO)
+        public async Task<IActionResult> Login( LoginDTO loginDTO)
         {
-            var response =await _AuthService.LoginAsync(loginDTO);
-            return response;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await _AuthService.LoginAsync(loginDTO);
+            if (response == null || !response.isSuccess)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
         }
+
     }
 }
