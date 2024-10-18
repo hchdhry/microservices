@@ -29,8 +29,13 @@ public class AuthService : IAuthService
         });
     }
 
-    public Task<ResponseDTO> RegisterAsync(RegisterDTO registerDTO)
+    public async Task<ResponseDTO> RegisterAsync(RegisterDTO registerDTO)
     {
-        throw new NotImplementedException();
+        return await _baseService.SendAsync(new RequestDTO
+        {
+            APItype = SD.APIType.POST,
+            Url = SD.AuthAPIBase + "/api/Auth/register",
+            Data = registerDTO
+        });
     }
 }

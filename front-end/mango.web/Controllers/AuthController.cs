@@ -20,6 +20,11 @@ namespace mango.web.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Login( LoginDTO loginDTO)
@@ -30,6 +35,22 @@ namespace mango.web.Controllers
             }
 
             var response = await _AuthService.LoginAsync(loginDTO);
+            if (response == null || !response.isSuccess)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Regsiter(RegisterDTO registerDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await _AuthService.RegisterAsync(registerDTO);
             if (response == null || !response.isSuccess)
             {
                 return BadRequest(response);
