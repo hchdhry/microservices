@@ -23,7 +23,13 @@ namespace Mango.Services.Auth.Controllers
         public async Task<IActionResult> Register([FromBody]RegisterDTO registerDTO)
         {
 
-            var response = await _authService.Register(registerDTO);
+            var Data = await _authService.Register(registerDTO);
+            var response = new ResponseDTO
+            {
+                Result = Data,
+                isSuccess = true,
+                Message = "user registered successfully"    
+            };
             return Ok(response);
 
         }

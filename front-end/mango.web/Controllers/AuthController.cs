@@ -1,4 +1,3 @@
-
 using mango.web.models.DTO;
 using mango.web.Service.IService;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace mango.web.Controllers
 {
-  
+
     public class AuthController : Controller
     {
         private readonly IAuthService _AuthService;
@@ -27,7 +26,7 @@ namespace mango.web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login( LoginDTO loginDTO)
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -43,7 +42,7 @@ namespace mango.web.Controllers
             return Ok(response);
         }
         [HttpPost]
-        public async Task<IActionResult> Regsiter(RegisterDTO registerDTO)
+        public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
             if (!ModelState.IsValid)
             {
