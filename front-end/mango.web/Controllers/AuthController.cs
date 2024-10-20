@@ -1,7 +1,9 @@
 using mango.web.models.DTO;
 using mango.web.Service.IService;
+using mango.web.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace mango.web.Controllers
@@ -22,6 +24,18 @@ namespace mango.web.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            var roleList = new List<SelectListItem>()
+            {
+                new SelectListItem
+                {
+                    Text = "ADMIN",Value = "ADMIN"
+                },
+                   new SelectListItem
+                {
+                    Text = "USER",Value = "USER"
+                }
+            };
+            ViewBag.roleList = roleList;
             return View();
         }
 
