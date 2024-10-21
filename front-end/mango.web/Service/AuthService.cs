@@ -14,9 +14,14 @@ public class AuthService : IAuthService
         _baseService = baseService;
 
     }
-    public Task<ResponseDTO> AssignRoleAsync(RegisterDTO registerDTO)
+    public async Task<ResponseDTO> AssignRoleAsync(RegisterDTO registerDTO)
     {
-        throw new NotImplementedException();
+        return await _baseService.SendAsync(new RequestDTO
+        {
+            APItype = SD.APIType.POST,
+            Url = SD.AuthAPIBase + "/api/Auth/AssignRole",
+            Data = registerDTO
+        });
     }
 
     public async Task<ResponseDTO> LoginAsync(LoginDTO loginDTO)

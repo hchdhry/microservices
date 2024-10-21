@@ -22,6 +22,11 @@ namespace mango.web.Controllers
             return View();
         }
         [HttpGet]
+        public IActionResult AssignRole()
+        {
+            return View();
+        }
+        [HttpGet]
         public IActionResult Register()
         {
             var roleList = new List<SelectListItem>()
