@@ -58,7 +58,7 @@ namespace mango.web.Controllers
                 return BadRequest(response);
             }
 
-            return Ok(response);
+            return RedirectToAction("index","Home");
         }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
