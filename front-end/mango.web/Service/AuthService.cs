@@ -26,12 +26,13 @@ public class AuthService : IAuthService
 
     public async Task<ResponseDTO> LoginAsync(LoginDTO loginDTO)
     {
-        return await _baseService.SendAsync(new RequestDTO
+        var response =  await _baseService.SendAsync(new RequestDTO
         {
             APItype = SD.APIType.POST,
             Url = SD.AuthAPIBase + "/api/Auth/login",
             Data = loginDTO
         });
+        return response;
     }
 
     public async Task<ResponseDTO> RegisterAsync(RegisterDTO registerDTO)

@@ -63,14 +63,11 @@ public class BaseService : IBaseService
                 var responseDTO = JsonConvert.DeserializeObject<ResponseDTO>(apiContent);
                 if (responseDTO != null)
                 {
-                    responseDTO = new ResponseDTO
-                    {
-                        isSuccess = apiResponse.IsSuccessStatusCode,
-                        Message = apiResponse.IsSuccessStatusCode ? "Success" : "Error",
-                        Result = apiContent
-                    };
+                    responseDTO.isSuccess = apiResponse.IsSuccessStatusCode;
+                    responseDTO.Message = apiResponse.IsSuccessStatusCode ? "Success" : "Error";
                 }
                 return responseDTO;
+
         }
 
 

@@ -12,9 +12,11 @@ namespace mango.web.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _AuthService;
-        public AuthController(IAuthService AuthService)
+        private readonly ITokenProvider _tokenProvider;
+        public AuthController(IAuthService AuthService, ITokenProvider tokenProvider)
         {
             _AuthService = AuthService;
+            _tokenProvider = tokenProvider;
         }
         [HttpGet]
         public IActionResult Login()
@@ -57,6 +59,10 @@ namespace mango.web.Controllers
             {
                 return BadRequest(response);
             }
+
+            Console.WriteLine(response);
+            _tokenProvider.SetToken(response.Token);
+
 
             return RedirectToAction("index","Home");
         }
