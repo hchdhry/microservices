@@ -59,14 +59,16 @@ public class BaseService : IBaseService
                 return new ResponseDTO { Message = "Please provide the required information", isSuccess = false, Result = null };
             default:
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
+          
                 Console.WriteLine($"Response Content: {apiContent}");
+               
                 var responseDTO = JsonConvert.DeserializeObject<ResponseDTO>(apiContent);
                 if (responseDTO != null)
                 {
                     responseDTO.isSuccess = apiResponse.IsSuccessStatusCode;
                     responseDTO.Message = apiResponse.IsSuccessStatusCode ? "Success" : "Error";
                 }
-                return responseDTO;
+                return responseDTO;  
 
         }
 

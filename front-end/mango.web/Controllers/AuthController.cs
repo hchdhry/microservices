@@ -55,16 +55,17 @@ namespace mango.web.Controllers
             }
 
             var response = await _AuthService.LoginAsync(loginDTO);
-            if (response == null || !response.isSuccess)
+            if (response.Token == string.Empty)
             {
-                return BadRequest(response);
+                
+                ModelState.AddModelError("CustomError",response.Message);
+                return View(loginDTO);
+
             }
+            
 
-            Console.WriteLine(response);
             _tokenProvider.SetToken(response.Token);
-
-
-            return RedirectToAction("index","Home");
+            return RedirectToAction("index", "Home");
         }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)

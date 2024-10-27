@@ -41,11 +41,22 @@ public class AuthService : IAuthService
 
     public async Task<LoginResponseDTO> LogIn(LoginDTO loginDTO)
     {
-      
-      
-            var user = await applicationDBContext.ApplicationUsers.FirstOrDefaultAsync(u=>u.UserName == loginDTO.UserName);
+        // First, check for the user
+        var user = await applicationDBContext.ApplicationUsers
+            .FirstOrDefaultAsync(u => u.UserName == loginDTO.UserName);
 
-        UserDTO UserDto = new UserDTO
+        // If user not found or password is invalid
+        if (user == null || !await userManager.CheckPasswordAsync(user, loginDTO.Password))
+        {
+            return new LoginResponseDTO
+            {
+                userDTO = null,
+                Token = "" 
+            };
+        }
+
+      
+        var userDto = new UserDTO
         {
             ID = user.Id,
             Email = user.Email,
@@ -53,24 +64,14 @@ public class AuthService : IAuthService
             PhoneNumber = user.PhoneNumber
         };
 
-        bool IsValid = await userManager.CheckPasswordAsync(user,loginDTO.Password);
-            if(user == null || IsValid != true )
-            {
-                return new LoginResponseDTO
-                {
-                    userDTO = null,
-                    Token = ""
+        var token = await _jWTService.GenerateToken(user);
 
-                };
-            }
-            else return new LoginResponseDTO
-            {
-                userDTO = UserDto,
-                Token = await _jWTService.GenerateToken(user)
-
-            };
-
-
+      
+        return new LoginResponseDTO
+        {
+            userDTO = userDto,
+            Token = token
+        };
     }
 
     public async Task<string> Register(RegisterDTO registerDTO)
