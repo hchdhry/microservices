@@ -64,7 +64,8 @@ public class AuthService : IAuthService
             PhoneNumber = user.PhoneNumber
         };
 
-        var token = await _jWTService.GenerateToken(user);
+        var role = await userManager.GetRolesAsync(user);
+        var token = await _jWTService.GenerateToken(user,role);
 
       
         return new LoginResponseDTO

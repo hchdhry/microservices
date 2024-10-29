@@ -17,12 +17,13 @@ namespace Mango.Services.Auth.Services
             _jwtOptions = jwtOptions.Value;
         }
 
-        public Task<string> GenerateToken(ApplicationUser applicationUser)
+        public Task<string> GenerateToken(ApplicationUser applicationUser,IEnumerable<string>roles)
         {
             
             var email = applicationUser.Email ?? throw new ArgumentNullException(nameof(applicationUser.Email), "Email cannot be null");
             var id = applicationUser.Id ?? throw new ArgumentNullException(nameof(applicationUser.Id), "User ID cannot be null");
             var name = applicationUser.Name ?? "Anonymous"; 
+   
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
@@ -31,8 +32,11 @@ namespace Mango.Services.Auth.Services
     {
         new Claim(JwtRegisteredClaimNames.Email, email),
         new Claim(JwtRegisteredClaimNames.Sub, id),
-        new Claim(JwtRegisteredClaimNames.Name, name)
+        new Claim(JwtRegisteredClaimNames.Name, name),
+
     };
+            claims.AddRange(roles.Select(role=>new Claim(ClaimTypes.Role,role)));
+
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

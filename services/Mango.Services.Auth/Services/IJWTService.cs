@@ -4,5 +4,5 @@ namespace Mango.Services.Auth.Services;
 
 public interface IJWTService
 {
-    public Task<string> GenerateToken(ApplicationUser applicationUser);
+    public Task<string> GenerateToken(ApplicationUser applicationUser,IEnumerable<string> roles);
 }
