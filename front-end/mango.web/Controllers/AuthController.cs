@@ -101,6 +101,12 @@ namespace mango.web.Controllers
 
             return Ok(response);
         }
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync();
+            _tokenProvider.ClearToken();
+            return RedirectToAction("index", "Home");
+        }
         private async Task SignInUser(LoginResponseDTO model)
         {
             if (string.IsNullOrEmpty(model?.Token))
