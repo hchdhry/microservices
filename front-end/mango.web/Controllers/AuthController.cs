@@ -2,8 +2,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using mango.web.models.DTO;
 using mango.web.Service.IService;
+using mango.web.Utilities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -30,6 +32,7 @@ namespace mango.web.Controllers
             return View();
         }
         [HttpGet]
+        [Authorize(Roles ="ADMIN")]
         public IActionResult AssignRole()
         {
             return View();
