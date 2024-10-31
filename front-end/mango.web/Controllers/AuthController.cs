@@ -32,7 +32,13 @@ namespace mango.web.Controllers
             return View();
         }
         [HttpGet]
-        [Authorize(Roles ="ADMIN")]
+        [Route("Auth/AccessDenied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+        [HttpGet]
+     
         public IActionResult AssignRole()
         {
             return View();

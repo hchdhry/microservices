@@ -4,6 +4,7 @@ using mango.services.Auth.Models;
 using mango.services.Auth.Services;
 using Mango.Services.Auth.Services;
 using mango.services.Auth.Data;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

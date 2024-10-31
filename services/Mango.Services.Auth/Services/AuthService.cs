@@ -41,11 +41,10 @@ public class AuthService : IAuthService
 
     public async Task<LoginResponseDTO> LogIn(LoginDTO loginDTO)
     {
-        // First, check for the user
+        
         var user = await applicationDBContext.ApplicationUsers
             .FirstOrDefaultAsync(u => u.UserName == loginDTO.UserName);
 
-        // If user not found or password is invalid
         if (user == null || !await userManager.CheckPasswordAsync(user, loginDTO.Password))
         {
             return new LoginResponseDTO

@@ -2,6 +2,7 @@ using mango.services.Auth.Data;
 using mango.services.Auth.DTO;
 using mango.services.Auth.Services;
 using Mango.Services.Auth.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,7 @@ namespace Mango.Services.Auth.Controllers
 
         }
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         [Route("AssignRole")]
         public async Task<IActionResult> AssignRole([FromBody] RegisterDTO Model)
         {

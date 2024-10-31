@@ -5,10 +5,12 @@ using Mango.Services.CouponAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using mango.services.models.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mango.services.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class CouponController : ControllerBase
     {
