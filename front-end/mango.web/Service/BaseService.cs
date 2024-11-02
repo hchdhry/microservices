@@ -12,15 +12,25 @@ namespace mango.web.Service;
 public class BaseService : IBaseService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    public BaseService(IHttpClientFactory clientFactory)
+    private readonly ITokenProvider _tokenProvider;
+    public BaseService(IHttpClientFactory clientFactory, ITokenProvider tokenProvider)
     {
         _httpClientFactory = clientFactory;
+        _tokenProvider = tokenProvider;
     }
-    public async Task<ResponseDTO> SendAsync(RequestDTO requestDTO)
+    public async Task<ResponseDTO> SendAsync(RequestDTO requestDTO,bool WithBearer = true )
     {
         HttpClient client = _httpClientFactory.CreateClient("MangoAPI");
         HttpRequestMessage message = new HttpRequestMessage();
         message.Headers.Add("Accept","application/json");
+        if (WithBearer)
+        {
+            var token = _tokenProvider.GetToken();
+            if (token != null)
+            {
+                message.Headers.Add("Authorization",$"Bearer {token}");
+            }
+        }
         message.RequestUri = new Uri(requestDTO.Url);
         
         if (requestDTO.Data != null)

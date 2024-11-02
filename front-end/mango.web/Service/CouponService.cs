@@ -18,7 +18,7 @@ public class CouponService : ICouponService
             APItype = SD.APIType.POST,
             Url = SD.CouponAPIURL+"/api/coupon",
             Data = couponDTO
-        });
+        }, WithBearer: true);
     }
 
     public async Task<ResponseDTO> DeleteCoupon(int couponID)
@@ -27,7 +27,7 @@ public class CouponService : ICouponService
         {
             APItype = SD.APIType.DELETE,
             Url = $"{SD.CouponAPIURL}/api/Coupon/{couponID}"
-        });
+        }, WithBearer: true);
     }
 
     public async Task<ResponseDTO> GetAllCouponsAsync()
@@ -36,7 +36,7 @@ public class CouponService : ICouponService
        {
            APItype = SD.APIType.GET,
            Url = SD.CouponAPIURL+"/api/Coupon",
-       });
+       }, WithBearer: true);
     }
 
     public async Task<ResponseDTO> GetCouponByIdAsync(int couponID)
@@ -45,7 +45,7 @@ public class CouponService : ICouponService
         {
             APItype = SD.APIType.GET,
             Url = SD.CouponAPIURL+"/api/Coupon/"+couponID,
-        });
+        }, WithBearer: true);
     }
     
         
@@ -58,6 +58,6 @@ public class CouponService : ICouponService
             APItype = SD.APIType.PUT,
             Url = SD.CouponAPIURL+"/api/Coupon",
             Data = couponDTO
-        });
+        }, WithBearer: true);
     }
 }

@@ -21,7 +21,7 @@ public class AuthService : IAuthService
             APItype = SD.APIType.POST,
             Url = SD.AuthAPIBase + "/api/Auth/AssignRole",
             Data = registerDTO
-        });
+        },WithBearer: true);
     }
 
     public async Task<ResponseDTO> LoginAsync(LoginDTO loginDTO)
@@ -31,7 +31,7 @@ public class AuthService : IAuthService
             APItype = SD.APIType.POST,
             Url = SD.AuthAPIBase + "/api/Auth/login",
             Data = loginDTO
-        });
+        },WithBearer:false);
         return response;
     }
 
@@ -42,6 +42,6 @@ public class AuthService : IAuthService
             APItype = SD.APIType.POST,
             Url = SD.AuthAPIBase + "/api/Auth/register",
             Data = registerDTO
-        });
+        },WithBearer:false);
     }
 }
