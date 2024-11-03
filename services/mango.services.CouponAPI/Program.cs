@@ -2,6 +2,7 @@ using System.Text;
 using AutoMapper;
 using mango.services;
 using mango.services.Data;
+using mango.services.Ectensions;
 using mango.services.models.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -42,33 +43,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-var Secret = builder.Configuration.GetValue<string>("APIsettings:Secret");
-var Issuer = builder.Configuration.GetValue<string>("APIsettings:Issuer");
-var Audience = builder.Configuration.GetValue<string>("APIsettings:Audience");
-var key = Encoding.ASCII.GetBytes(Secret);
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = true,
-        ValidIssuer = Issuer,
-        ValidateAudience = true,
-        ValidAudience = Audience,
-        ValidateLifetime = true,
-        RequireExpirationTime = true  // Set to true once working for added security
-    };
-});
-
+builder.AddAuthentication();
 builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
