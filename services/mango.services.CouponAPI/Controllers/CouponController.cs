@@ -66,6 +66,7 @@ namespace mango.services.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<ResponseDTO>> Post([FromBody] CouponDTO coupon)
         {
             var responseDTO = new ResponseDTO();
@@ -116,6 +117,7 @@ namespace mango.services.Controllers
             return StatusCode(201,responseDTO);
         }
         [HttpDelete]
+        [Authorize(Roles = "ADMIN")]
         [Route("{id:int}")]
         public async Task<ActionResult<ResponseDTO>> Delete(int id)
         {
