@@ -11,7 +11,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
-
+//test if gitignore is working
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
