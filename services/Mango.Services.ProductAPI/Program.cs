@@ -1,3 +1,4 @@
+using mango.services;
 using mango.services.ProductAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,10 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
+builder.Services.AddAuthorization();
 var app = builder.Build();
 //test if gitignore is working
 // Configure the HTTP request pipeline.
@@ -20,6 +23,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();  
+app.MapControllers();
 
 
 
