@@ -14,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
 builder.Services.AddAuthorization();
 var app = builder.Build();
-//test if gitignore is working
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

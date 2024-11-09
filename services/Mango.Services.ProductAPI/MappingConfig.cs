@@ -10,9 +10,10 @@ namespace mango.services
         private readonly ApplicationDBContext _dbContext;
         public MappingConfig()
         {
-           
-        CreateMap<Product,ProductDTO>();
-     
+
+            CreateMap<Product, ProductDTO>();
+            CreateMap<ProductDTO, Product>();
+
         }
     }
 }

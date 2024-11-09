@@ -45,9 +45,35 @@ namespace Mango.Services.ProductAPI.Controllers
         }
 
         [HttpPost]
-        public Task<ActionResult<ResponseDTO>> Post()
+        public async Task<ActionResult<ResponseDTO>> Post(ProductDTO productDTO)
         {
-            throw new NotImplementedException();
+            try
+            {
+             
+                Product product = _mapper.Map<Product>(productDTO);
+
+         
+                await _dbContext.Products.AddAsync(product);
+                await _dbContext.SaveChangesAsync();
+
+                var resultDTO = _mapper.Map<ProductDTO>(product);
+
+                return Ok(new ResponseDTO
+                {
+                    Result = resultDTO,
+                    Message = "Product created successfully.",
+                    isSuccess = true
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ResponseDTO
+                {
+                    Result = null,
+                    Message = $"An error occurred: {e.Message}",
+                    isSuccess = false
+                });
+            }
         }
 
         [HttpPut]
