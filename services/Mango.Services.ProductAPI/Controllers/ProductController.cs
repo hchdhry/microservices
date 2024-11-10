@@ -77,9 +77,55 @@ namespace Mango.Services.ProductAPI.Controllers
         }
 
         [HttpPut]
-        public Task<ActionResult<ResponseDTO>> Update()
+        public async Task<ActionResult<ResponseDTO>> Update(int id, ProductDTO productDTO)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+            {
+                return BadRequest(new ResponseDTO
+                {
+                    Result = null,
+                    Message = "Invalid product ID",
+                    isSuccess = false
+                });
+            }
+
+            try
+            {
+                var productToUpdate = await _dbContext.Products
+                    .FirstOrDefaultAsync(u => u.ProductId == id);
+
+                if (productToUpdate == null)
+                {
+                    return NotFound(new ResponseDTO
+                    {
+                        Result = null,
+                        Message = "Product not found",
+                        isSuccess = false
+                    });
+                }
+
+              
+                _mapper.Map(productDTO, productToUpdate);
+
+                _dbContext.Products.Update(productToUpdate);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok(new ResponseDTO
+                {
+                    Result = productToUpdate,
+                    Message = "Product updated successfully.",
+                    isSuccess = true
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ResponseDTO
+                {
+                    Result = null,
+                    Message = $"An error occurred: {e.Message}",
+                    isSuccess = false
+                });
+            }
         }
     }
 }
