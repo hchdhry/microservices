@@ -127,5 +127,32 @@ namespace Mango.Services.ProductAPI.Controllers
                 });
             }
         }
+        [HttpDelete]
+        public async Task<ActionResult<ResponseDTO>>Delete(int id)
+        {
+            try
+            {
+               Product ProductToDelete = await _dbContext.Products.FirstOrDefaultAsync(u=>u.ProductId == id);
+               _dbContext.Products.Remove(ProductToDelete);
+               await _dbContext.SaveChangesAsync();
+                return Ok(new ResponseDTO
+                {
+                    Result = _mapper.Map<ProductDTO>(ProductToDelete),
+                    Message = "Product deleted successfully.",
+                    isSuccess = true
+                });
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new ResponseDTO
+                {
+                    Result = null,
+                    Message = $"An error occurred: {e.Message}",
+                    isSuccess = false
+                });
+
+            }
+
+        }
     }
 }
