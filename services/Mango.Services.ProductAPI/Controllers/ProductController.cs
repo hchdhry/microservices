@@ -6,6 +6,7 @@ using Mango.Services.ProductAPI.Models;
 using Mango.Services.ProductAPI.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Mango.Services.ProductAPI.Controllers
 {
@@ -45,6 +46,7 @@ namespace Mango.Services.ProductAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="ADMIN")]
         public async Task<ActionResult<ResponseDTO>> Post(ProductDTO productDTO)
         {
             try
@@ -77,6 +79,7 @@ namespace Mango.Services.ProductAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<ResponseDTO>> Update(int id, ProductDTO productDTO)
         {
             if (id <= 0)
@@ -128,6 +131,7 @@ namespace Mango.Services.ProductAPI.Controllers
             }
         }
         [HttpDelete]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<ResponseDTO>>Delete(int id)
         {
             try
