@@ -15,7 +15,13 @@ public class ProductService : IProductService
     }
     public Task<ResponseDTO> CreateProduct(ProductDTO productDTODTO)
     {
-        throw new NotImplementedException();
+        return _baseService.SendAsync(new RequestDTO
+        {
+            APItype = SD.APIType.POST,
+            Url = SD.ProductAPIURL + "/api/Product",
+            Data = productDTODTO
+        }, WithBearer: false);
+       
     }
 
     public Task<ResponseDTO> DeleteCoupon(int ProductDTO)

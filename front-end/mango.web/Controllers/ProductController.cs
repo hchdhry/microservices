@@ -28,6 +28,43 @@ public class ProductController : Controller
         return View(productDTOs);
     }
 
-   
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Create(ProductDTO product)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _productService.CreateProduct(product);
+                if (response.isSuccess)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("", response?.Message ?? "Error creating product. Please try again.");
+                    return View(product);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            
+            ModelState.AddModelError("", $"error:{e}");
+            return View(product);
+        }
+        return View(product);
+
+
+
+    }
+
+
 
 }
