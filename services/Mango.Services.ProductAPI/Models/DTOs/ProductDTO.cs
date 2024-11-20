@@ -4,7 +4,9 @@ namespace Mango.Services.ProductAPI.Models.DTOs
 {
     public class ProductDTO
     {
-  
+
+        [Key]
+        public int ProductId { get; set; }
         [Required]
         public string Name { get; set; }
         [Range(1, 1000)]

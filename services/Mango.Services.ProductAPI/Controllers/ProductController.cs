@@ -7,6 +7,7 @@ using Mango.Services.ProductAPI.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Mango.Services.ProductAPI.Controllers
 {
@@ -44,6 +45,37 @@ namespace Mango.Services.ProductAPI.Controllers
 
             return Ok(response);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById([FromRoute] int id)
+        {
+            ResponseDTO response = new();
+            try
+            {
+                var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == id);
+
+                if (product != null)
+                {
+                    response.Result = _mapper.Map<ProductDTO>(product);
+                    response.Message = "Retrieved product successfully.";
+                    response.isSuccess = true;
+                    return Ok(response);
+                }
+                else
+                {
+                    response.Message = $"No product found with ID {id}.";
+                    response.isSuccess = false;
+                    return NotFound(response);
+                }
+            }
+            catch (Exception e)
+            {
+                response.Message = $"An error occurred: {e.Message}";
+                response.Result = null;
+                response.isSuccess = false;
+                return BadRequest(response);
+            }
+        }
+
 
         [HttpPost]
        

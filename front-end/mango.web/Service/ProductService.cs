@@ -24,9 +24,13 @@ public class ProductService : IProductService
        
     }
 
-    public Task<ResponseDTO> DeleteCoupon(int ProductDTO)
+    public async Task<ResponseDTO> DeleteCoupon(int id)
     {
-        throw new NotImplementedException();
+        return await _baseService.SendAsync(new RequestDTO
+        {
+            APItype = SD.APIType.DELETE,
+            Url = $"{SD.ProductAPIURL}/api/Product/{id}",
+        }, WithBearer: false);
     }
 
     public async Task<ResponseDTO> GetAllProductsAsync()
@@ -38,9 +42,13 @@ public class ProductService : IProductService
         }, WithBearer: false);
     }
 
-    public Task<ResponseDTO> GetProductByIdAsync(int ProductId)
+    public async Task<ResponseDTO> GetProductByIdAsync(int ProductId)
     {
-        throw new NotImplementedException();
+        return await _baseService.SendAsync(new RequestDTO
+        {
+            APItype = SD.APIType.GET,
+            Url = $"{SD.ProductAPIURL}/api/Product/{ProductId}",
+        }, WithBearer: false);
     }
 
     public Task<ResponseDTO> UpdateCoupon(ProductDTO productDTO)

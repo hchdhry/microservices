@@ -7,6 +7,6 @@ public interface IProductService
     Task<ResponseDTO> GetAllProductsAsync();
     Task<ResponseDTO> CreateProduct(ProductDTO productDTODTO);
     Task<ResponseDTO> UpdateCoupon(ProductDTO productDTO);
-    Task<ResponseDTO> DeleteCoupon(int ProductDTO);
+    Task<ResponseDTO> DeleteCoupon(int id);
 
 }

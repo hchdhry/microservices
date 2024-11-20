@@ -65,6 +65,24 @@ public class ProductController : Controller
 
     }
 
+    public async Task<ActionResult> Delete(int id)
+    {
+        try
+        {
+            var response = await _productService.GetProductByIdAsync(id);
+            var product = JsonConvert.DeserializeObject<ProductDTO>(Convert.ToString(response.Result));
+            return View(product);
+            
+        }
+        catch(Exception e)
+        {
+            ModelState.AddModelError("",$"error:{e}");
+            return View();
+
+        }
+    }
+        
+
 
 
 }
