@@ -1,0 +1,49 @@
+@using mango.web.models.DTO;
+@model ProductDTO;
+
+<form asp-action="Update" method="Post">
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Update Product</h1>
+        <hr />
+        <div class="row">
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Name</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Name" class="form-control" />
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Price</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Price" class="form-control" />
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Category</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="CategoryName" class="form-control" />
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Description</label>
+            </div>
+            <div class="col-10 pb-3">
+                <textarea asp-for="Description" class="form-control"></textarea>
+            </div>
+
+       
+            <input type="hidden" asp-for="ProductId" />
+
+            <div class="col-5 offset-2">
+                <a class="btn btn-secondary form-control" asp-action="Index" asp-controller="Product">Back to List</a>
+            </div>
+            <div class="col-5">
+                <input type="submit" value="Update" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+</form>
