@@ -111,7 +111,7 @@ namespace Mango.Services.ProductAPI.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "ADMIN")]
+       
         public async Task<ActionResult<ResponseDTO>> Update(int id, ProductDTO productDTO)
         {
             if (id <= 0)
@@ -163,13 +163,22 @@ namespace Mango.Services.ProductAPI.Controllers
             }
         }
         [HttpDelete]
-        [Authorize(Roles = "ADMIN")]
+       
         public async Task<ActionResult<ResponseDTO>>Delete(int id)
         {
             try
             {
                Product ProductToDelete = await _dbContext.Products.FirstOrDefaultAsync(u=>u.ProductId == id);
-               _dbContext.Products.Remove(ProductToDelete);
+                if (ProductToDelete == null)
+                {
+                    return NotFound(new ResponseDTO
+                    {
+                        Result = null,
+                        Message = $"Product with ID {id} not found.",
+                        isSuccess = false
+                    });
+                }
+                _dbContext.Products.Remove(ProductToDelete);
                await _dbContext.SaveChangesAsync();
                 return Ok(new ResponseDTO
                 {
@@ -182,7 +191,7 @@ namespace Mango.Services.ProductAPI.Controllers
             {
                 return BadRequest(new ResponseDTO
                 {
-                    Result = null,
+                    Result = "",
                     Message = $"An error occurred: {e.Message}",
                     isSuccess = false
                 });

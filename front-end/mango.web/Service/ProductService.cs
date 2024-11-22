@@ -29,7 +29,7 @@ public class ProductService : IProductService
         return await _baseService.SendAsync(new RequestDTO
         {
             APItype = SD.APIType.DELETE,
-            Url = $"{SD.ProductAPIURL}/api/Product/{id}",
+            Url = $"{SD.ProductAPIURL}/api/Product?id={id}",
         }, WithBearer: false);
     }
 

@@ -81,6 +81,46 @@ public class ProductController : Controller
 
         }
     }
+    [HttpPost]
+    public async Task<ActionResult> Delete(ProductDTO dTO)
+    {
+        if (dTO == null)
+        {
+            TempData["error"] = "Product is null";
+            return RedirectToAction(nameof(Index));
+        }
+
+        if (ModelState.IsValid)
+        {
+            ResponseDTO response = await _productService.DeleteCoupon(dTO.ProductId);
+
+            // Add null check for response
+            if (response != null)
+            {
+                if (response.isSuccess)
+                {
+                    TempData["success"] = "Product deleted successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    // Use null-coalescing operator to provide a default error message
+                    TempData["error"] = response.Message ?? "Error deleting product. Please try again.";
+                    ModelState.AddModelError("", response.Message ?? "Error deleting product. Please try again.");
+                    return View(dTO);
+                }
+            }
+            else
+            {
+                // Handle case where response is null
+                TempData["error"] = "No response received from service";
+                ModelState.AddModelError("", "No response received from service");
+                return View(dTO);
+            }
+        }
+
+        return RedirectToAction(nameof(HomeController.Index), "Home");
+    }
     public async Task<ActionResult> Update(int id)
     {
         try
