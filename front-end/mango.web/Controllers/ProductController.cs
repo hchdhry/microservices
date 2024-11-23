@@ -94,7 +94,7 @@ public class ProductController : Controller
         {
             ResponseDTO response = await _productService.DeleteCoupon(dTO.ProductId);
 
-            // Add null check for response
+          
             if (response != null)
             {
                 if (response.isSuccess)
@@ -104,7 +104,7 @@ public class ProductController : Controller
                 }
                 else
                 {
-                    // Use null-coalescing operator to provide a default error message
+                    
                     TempData["error"] = response.Message ?? "Error deleting product. Please try again.";
                     ModelState.AddModelError("", response.Message ?? "Error deleting product. Please try again.");
                     return View(dTO);
@@ -112,7 +112,7 @@ public class ProductController : Controller
             }
             else
             {
-                // Handle case where response is null
+                
                 TempData["error"] = "No response received from service";
                 ModelState.AddModelError("", "No response received from service");
                 return View(dTO);
@@ -136,6 +136,45 @@ public class ProductController : Controller
             return View();
 
         }
+    }
+    [HttpPost]
+    public async Task<ActionResult> Update(ProductDTO dTO)
+    {
+        try
+        {
+            ResponseDTO response = await _productService.UpdateProduct(dTO);
+            if (response != null)
+            {
+                if (response.isSuccess)
+                {
+                    TempData["success"] = "Product Updated successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+
+                    TempData["error"] = response.Message ?? "Error updating product. Please try again.";
+                    ModelState.AddModelError("", response.Message ?? "Error updating product. Please try again.");
+                    return View(dTO);
+                }
+            }
+            else
+            {
+
+                TempData["error"] = "No response received from service";
+                ModelState.AddModelError("", "No response received from service");
+                return View(dTO);
+            }
+
+
+        }
+        catch(Exception e)
+        {
+            ModelState.AddModelError("", $"error:{e}");
+            return View();
+
+        }
+
     }
 
 

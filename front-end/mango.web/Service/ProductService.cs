@@ -51,8 +51,13 @@ public class ProductService : IProductService
         }, WithBearer: false);
     }
 
-    public Task<ResponseDTO> UpdateCoupon(ProductDTO productDTO)
+    public async Task<ResponseDTO> UpdateProduct(ProductDTO productDTO)
     {
-        throw new NotImplementedException();
+        return await _baseService.SendAsync(new RequestDTO
+        {
+            APItype = SD.APIType.PUT,
+            Url = SD.ProductAPIURL + "/api/Product",
+            Data = productDTO
+        }, WithBearer: false);
     }
 }

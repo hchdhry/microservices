@@ -112,9 +112,9 @@ namespace Mango.Services.ProductAPI.Controllers
 
         [HttpPut]
        
-        public async Task<ActionResult<ResponseDTO>> Update(int id, ProductDTO productDTO)
+        public async Task<ActionResult<ResponseDTO>> Update(ProductDTO productDTO)
         {
-            if (id <= 0)
+            if (productDTO.ProductId <= 0)
             {
                 return BadRequest(new ResponseDTO
                 {
@@ -127,7 +127,7 @@ namespace Mango.Services.ProductAPI.Controllers
             try
             {
                 var productToUpdate = await _dbContext.Products
-                    .FirstOrDefaultAsync(u => u.ProductId == id);
+                    .FirstOrDefaultAsync(u => u.ProductId == productDTO.ProductId);
 
                 if (productToUpdate == null)
                 {
