@@ -78,6 +78,7 @@ namespace Mango.Services.ProductAPI.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles ="ADMIN")]
        
         public async Task<ActionResult<ResponseDTO>> Post(ProductDTO productDTO)
         {
