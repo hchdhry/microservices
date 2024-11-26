@@ -20,7 +20,7 @@ public class ProductService : IProductService
             APItype = SD.APIType.POST,
             Url = SD.ProductAPIURL + "/api/Product",
             Data = productDTODTO
-        }, WithBearer: false);
+        }, WithBearer: true);
        
     }
 
@@ -30,7 +30,7 @@ public class ProductService : IProductService
         {
             APItype = SD.APIType.DELETE,
             Url = $"{SD.ProductAPIURL}/api/Product?id={id}",
-        }, WithBearer: false);
+        }, WithBearer: true);
     }
 
     public async Task<ResponseDTO> GetAllProductsAsync()
@@ -48,7 +48,7 @@ public class ProductService : IProductService
         {
             APItype = SD.APIType.GET,
             Url = $"{SD.ProductAPIURL}/api/Product/{ProductId}",
-        }, WithBearer: false);
+        }, WithBearer: true);
     }
 
     public async Task<ResponseDTO> UpdateProduct(ProductDTO productDTO)
@@ -58,6 +58,6 @@ public class ProductService : IProductService
             APItype = SD.APIType.PUT,
             Url = SD.ProductAPIURL + "/api/Product",
             Data = productDTO
-        }, WithBearer: false);
+        }, WithBearer: true);
     }
 }

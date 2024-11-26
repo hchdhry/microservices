@@ -4,6 +4,7 @@ using mango.web.Models;
 using mango.web.models.DTO;
 using mango.web.Service.IService;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mango.web.Controllers;
 
@@ -29,11 +30,13 @@ public class ProductController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "ADMIN")]
     public IActionResult Create()
     {
         return View();
     }
     [HttpPost]
+    [Authorize(Roles = "ADMIN")]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create(ProductDTO product)
     {
@@ -64,7 +67,7 @@ public class ProductController : Controller
 
 
     }
-
+    [Authorize(Roles = "ADMIN")]
     public async Task<ActionResult> Delete(int id)
     {
         try
@@ -82,6 +85,7 @@ public class ProductController : Controller
         }
     }
     [HttpPost]
+    [Authorize(Roles = "ADMIN")]
     public async Task<ActionResult> Delete(ProductDTO dTO)
     {
         if (dTO == null)
@@ -121,6 +125,7 @@ public class ProductController : Controller
 
         return RedirectToAction(nameof(HomeController.Index), "Home");
     }
+    [Authorize(Roles = "ADMIN")]
     public async Task<ActionResult> Update(int id)
     {
         try
@@ -138,6 +143,7 @@ public class ProductController : Controller
         }
     }
     [HttpPost]
+    [Authorize(Roles = "ADMIN")]
     public async Task<ActionResult> Update(ProductDTO dTO)
     {
         try
