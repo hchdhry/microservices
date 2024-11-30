@@ -3,7 +3,7 @@ using Mango.Services.ShoppingCart.Models.DTOs;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mango.Services.ShoppingCartAPI.Models
+namespace Mango.Services.ShoppingCart.Models
 {
     public class CartDetails
     {
